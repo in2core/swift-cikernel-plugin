@@ -13,13 +13,7 @@ struct BuildCIKernel: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
         guard let target = target as? SourceModuleTarget else { return [] }
 
-        // TODO: Find a better solution
-        let executable = Path(URL(fileURLWithPath: #file, isDirectory: false)
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .appendingPathComponent("Scripts/buildci.sh", isDirectory: false)
-            .path)
+        let executable = try context.tool(named: "Build-CIKernel").path
 
         return try FileManager.default.subpathsOfDirectory(atPath: target.directory.string).filter {
             $0.hasSuffix("Filter.metal")

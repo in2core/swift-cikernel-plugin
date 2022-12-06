@@ -13,7 +13,11 @@ let package = Package(
         .plugin(name: "Swift-CIKernel", targets: ["Swift-CIKernel"]),
     ],
     targets: [
-        .plugin(name: "Swift-CIKernel", capability: .buildTool()),
+        .executableTarget(name: "Build-CIKernel"),
+
+        .plugin(name: "Swift-CIKernel", capability: .buildTool(), dependencies: [
+            .target(name: "Build-CIKernel"),
+        ]),
 
         .testTarget(name: "Swift-CIKernel-Tests", exclude: [
             // Exclude so that the default Metal compiler is not used.
