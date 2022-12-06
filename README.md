@@ -36,7 +36,7 @@ let package = Package(
         .library(name: "ExampleLibrary", targets: ["ExampleTarget"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/in2core/swift-cikernel-plugin.git", branch: "main"),
+        .package(url: "https://github.com/in2core/swift-cikernel-plugin.git", from: "1.0.0"),
     ],
     targets: [
         .target(name: "ExampleTarget",
