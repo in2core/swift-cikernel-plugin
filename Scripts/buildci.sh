@@ -9,6 +9,8 @@ compiled_iOS="$2/$base-iphoneos.air"
 linked_iOS="$2/$base-iphoneos.metallib"
 compiled_tvOS="$2/$base-tvos.air"
 linked_tvOS="$2/$base-tvos.metallib"
+compiled_visionOS="$2/$base-visionos.air"
+linked_visionOS="$2/$base-visionos.metallib"
 output="$2/${base}Data.tmp"
 final="$2/${base}Data.swift"
 
@@ -20,6 +22,9 @@ xcrun -sdk iphoneos metallib -cikernel -o "$linked_iOS" "$compiled_iOS" || exit 
 
 xcrun -sdk appletvos metal -fcikernel "$1" -c -o "$compiled_tvOS" "$cache" --target=air64-apple-tvos13.0 || exit $?
 xcrun -sdk appletvos metallib -cikernel -o "$linked_tvOS" "$compiled_tvOS" || exit $?
+
+xcrun -sdk xros metal -fcikernel "$1" -c -o "$compiled_visionOS" "$cache" --target=air64-apple-xros1.0 || exit $?
+xcrun -sdk xros metallib -cikernel -o "$linked_visionOS" "$compiled_visionOS" || exit $?
 
 echo "import Foundation" > "$output"
 echo "#if os(macOS) || targetEnvironment(macCatalyst)" >> "$output"
@@ -38,6 +43,12 @@ echo "#elseif os(tvOS)" >> "$output"
 
 echo "let ${base}Data = Data([" >> "$output"
 xxd -i "$linked_tvOS" | grep -E '^[[:space:][:digit:]a-fx,]*$' >> "$output"
+echo "])" >> "$output"
+
+echo "#elseif os(visionOS)" >> "$output"
+
+echo "let ${base}Data = Data([" >> "$output"
+xxd -i "$linked_visionOS" | grep -E '^[[:space:][:digit:]a-fx,]*$' >> "$output"
 echo "])" >> "$output"
 
 echo "#else" >> "$output"
