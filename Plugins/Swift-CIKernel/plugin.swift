@@ -27,7 +27,7 @@ struct BuildCIKernel: BuildToolPlugin {
             let source = target.directory.appending(source)
             let output = context.pluginWorkDirectory.appending("\(source.stem)Data.swift")
 
-            return .buildCommand(displayName: "Build CI Kernel", executable: executable, arguments: [
+            return .buildCommand(displayName: "Build CI Kernel \(source.stem)", executable: executable, arguments: [
                 source.string,
                 context.pluginWorkDirectory.string
             ], environment: [:], inputFiles: [

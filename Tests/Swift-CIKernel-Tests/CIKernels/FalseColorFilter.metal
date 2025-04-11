@@ -1,5 +1,5 @@
 //
-//  QREFalseColorFilter.metal
+//  FalseColorFilter.metal
 //  Swift-CIKernel-Tests
 //
 //  Created by Michal Tomlein on 05/03/2020.
